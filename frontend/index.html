@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Vouch — One Agent ID. One vouch.</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">✓</span>
+    <div>
+      <h1>Agent Vouch</h1>
+      <p class="tagline">One Agent ID. One vouch.</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <label class="visually-hidden" for="networkSelect">Network</label>
+    <select id="networkSelect">
+      <option value="31337">Localhost (Chain 31337)</option>
+      <option value="97">Testnet (Chain 97)</option>
+      <option value="56">Mainnet (Chain 56)</option>
+    </select>
+    <button id="connectBtn" class="btn-primary">Connect Wallet</button>
+    <button id="disconnectBtn" class="btn-ghost" hidden>Disconnect</button>
+  </div>
+</header>
+
+<main class="layout">
+  <div id="alertBox" class="alert" hidden></div>
+  <div id="statusBanner" class="banner">Connect your wallet to check your Agent ID holder status.</div>
+
+  <section class="grid">
+    <div class="column">
+      <section class="card">
+        <h2>Vouch for someone</h2>
+        <p class="muted">Agent ID holders only. One vouch per holder, forever — it cannot be changed or undone.</p>
+        <form id="vouchForm">
+          <label for="subjectInput">Subject address</label>
+          <input id="subjectInput" type="text" placeholder="0x…" autocomplete="off" spellcheck="false">
+          <p id="ownVouchStatus" class="muted"></p>
+          <button type="submit" id="vouchBtn" class="btn-primary" disabled>Vouch</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Look up an address</h2>
+        <form id="lookupForm">
+          <label for="lookupInput">Address</label>
+          <input id="lookupInput" type="text" placeholder="0x…" autocomplete="off" spellcheck="false">
+          <button type="submit" id="lookupBtn" class="btn-secondary">Look up</button>
+        </form>
+        <dl id="lookupResult" class="stats" hidden>
+          <div><dt>Vouches received</dt><dd id="lookupCount">—</dd></div>
+          <div><dt>Has vouched</dt><dd id="lookupHasVouched">—</dd></div>
+          <div><dt>Vouched for</dt><dd id="lookupVouchedFor">—</dd></div>
+        </dl>
+      </section>
+    </div>
+
+    <div class="column">
+      <section class="card">
+        <h2>Recent vouches</h2>
+        <p class="muted"><span id="totalVouches">—</span> vouches recorded in total.</p>
+        <button id="refreshBtn" class="btn-ghost">Refresh</button>
+        <ul id="recentList" class="recent"></ul>
+        <p id="recentEmpty" class="muted">No vouches found in the scanned range yet.</p>
+      </section>
+
+      <section class="card">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li><strong>Hold an Agent ID.</strong> Agent ID is a non-transferable on-chain identity — one per user.</li>
+          <li><strong>Vouch once.</strong> The contract checks your Agent ID balance on-chain before accepting your vouch.</li>
+          <li><strong>One vouch each.</strong> A holder can vouch for exactly one address, forever. No duplicates, no take-backs.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>Contract settings</h2>
+        <p class="muted">AgentVouch contract address for each network. Stored only in this browser.</p>
+        <label for="addr31337">Localhost (31337)</label>
+        <input id="addr31337" type="text" placeholder="0x…" autocomplete="off" spellcheck="false">
+        <label for="addr97">Testnet (97)</label>
+        <input id="addr97" type="text" placeholder="0x…" autocomplete="off" spellcheck="false">
+        <label for="addr56">Mainnet (56)</label>
+        <input id="addr56" type="text" placeholder="0x…" autocomplete="off" spellcheck="false">
+        <button id="saveSettingsBtn" class="btn-secondary">Save settings</button>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Gas only, no fees. No rewards are promised. Every action is a transaction you confirm in your own wallet.</p>
+</footer>
+
+<!-- ethers v6 ships as an ES module; app.js (type="module") imports it. -->
+<script type="module" src="app.js"></script>
+</body>
+</html>
